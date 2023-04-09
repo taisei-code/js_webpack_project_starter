@@ -1,6 +1,6 @@
 import * as Todo from './modules/todo.js';
 
-;const nav      = document.querySelector('#nav');
+const nav      = document.querySelector('#nav');
 const cover    = document.querySelector('#cover');
 const appNames = ['todo', 'typing', 'slide-puzzle', 'memory-card', 'life'];
 
