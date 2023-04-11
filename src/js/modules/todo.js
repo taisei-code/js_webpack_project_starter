@@ -1,7 +1,9 @@
-const addForm  = document.querySelector('.td-add-form');
-const addInput = document.querySelector('.td-add-input');
-const todosUl  = document.querySelector('.todos');
-const donesUl  = document.querySelector('.dones');
+const addForm       = document.querySelector('.td-add-form');
+const addInput      = document.querySelector('.td-add-input');
+const todosUl       = document.querySelector('.todos');
+const donesUl       = document.querySelector('.dones');
+const searchForm    = document.querySelector('.td-search-form');
+const searchInput   = document.querySelector('.td-search-input');
 
 let todoData = [];
 
@@ -16,6 +18,7 @@ addForm.addEventListener('submit', e => {
   }
   addInput.value = '';
   updateLS();
+  updateTodo();
 })
 
 function updateLS() {
@@ -23,7 +26,7 @@ function updateLS() {
 }
 
 function getTodoData() {
-  return JSON.parse(localStorage.getItem('myTodo'));
+  return JSON.parse(localStorage.getItem('myTodo')) || [] ;
 }
 
 function createTodoElement(todo) {
@@ -80,8 +83,32 @@ function createTodoElement(todo) {
       todoData = todoData.filter(data => data !== todo);
     }
     updateLS();
+    updateTodo();
   })
 }
 
-createTodoElement({content: 'remans to do', isDone: false})
-createTodoElement({content: 'already', isDone: true})
+function updateTodo() {
+  todosUl.innerHTML = '';
+  donesUl.innerHTML = '';
+  todoData = getTodoData();
+  todoData.forEach(todo => {
+    createTodoElement(todo);
+  })
+}
+
+updateTodo();
+
+searchForm.addEventListener('submit', () => {
+  e.preventDefault();
+})
+
+searchInput.addEventListener('keyup', () => {
+  const searchWord = searchInput.value.trim().toLowerCase();
+  const todoItems  = document.querySelectorAll('.td-item');
+  todoItems.forEach(todoItem => {
+    todoItem.classList.remove('hide');
+    if(!todoItem.textContent.toLocaleLowerCase().includes(searchWord)) {
+      todoItem.classList.add('hide');
+    }
+  })
+})
