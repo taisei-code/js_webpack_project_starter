@@ -5,26 +5,39 @@ const donesUl       = document.querySelector('.dones');
 const searchForm    = document.querySelector('.td-search-form');
 const searchInput   = document.querySelector('.td-search-input');
 
+// 追加されたタスクを配列で管理
 let todoData = [];
 
+// タスクが追加された時の処理
 addForm.addEventListener('submit', e => {
   e.preventDefault();
+
+  // 入力された文字列を取得してオブジェクトに格納
   let todoObj = {
+    // inputに入力された値（タスク）を管理
     content: addInput.value.trim(),
+    // タスク完了・未完了を管理
     isDone: false
   };
+  console.log(todoObj);
+
   if(todoObj.content) {
+    // 配列にタスクを追加していく処理
     todoData.push(todoObj);
   }
+  console.log(todoData);
+
   addInput.value = '';
   updateLS();
   updateTodo();
 })
 
+// ローカルストレージにデータを保存
 function updateLS() {
   localStorage.setItem('myTodo', JSON.stringify(todoData));
 }
 
+// ローカルストレージに保存されたデータを取得
 function getTodoData() {
   return JSON.parse(localStorage.getItem('myTodo')) || [] ;
 }
